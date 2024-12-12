@@ -6,7 +6,7 @@ class BaseController {
     }
 
     public function inicio() {
-        require_once __DIR__.'/../Config/Views.php';
-        View::getView('Test');
+        
+        View::getView('Test', ['title' => 'prueba', "name" => "Mario"]);
     }
 }
