@@ -17,3 +17,7 @@ services:
       MYSQL_DATABASE: tu_base_de_datos
       MYSQL_USER: tu_usuario
       MYSQL_PASSWORD: tu_contraseña
+    ports:
+      - "3308:3306"
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d

@@ -2,7 +2,7 @@
     <a>Formulario</a>
 </nav>
 
-<form action="" class="form-container">
+<form action="/guarda" method="POST" class="form-container">
     <input type="text" name="id" hidden>
     <div class="form">
         <div class="lbl">

@@ -14,16 +14,25 @@
             </tr>
         </thead>
         <tbody>
+            <?php
+                if($data && is_array($data)) {
+                    for ($i=0; $i < sizeof($data) ; $i++) { 
+            ?>
             <tr>
-                <td>1</td>
-                <td>Mario</td>
-                <td></td>
-                <td>algo</td>
+                <td><?php echo $data[$i]['id']?></td>
+                <td><?php echo $data[$i]['name']?></td>
+                <td><?php echo $data[$i]['parent_id']?></td>
+                <td><?php echo $data[$i]['description']?></td>
                 <td class="actions">
                     <a href="/editar" class="btn bg-warning"><img src="/public/imgs/pencil-fill.svg" width="14"> Editar</a>
                     <a href="/elimina" class="btn bg-danger"><img src="/public/imgs/trash3-fill.svg" width="14"> Eliminar</a>
                 </td>
             </tr>
+            <?php
+                    }
+                }
+            ?>
+
         </tbody>
     </table>
 </div>
