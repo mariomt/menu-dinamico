@@ -30,11 +30,14 @@ Usted puede encontrar el script para crear la base de datos en la carpeta **db**
 
 ### Tercer paso 🐾🐾🐾
 
-Una ves creada la base de datos procedemos a configurar las variables de conexión de nuestra base de datos, las cuales las encontrará en ./config/constant.php, colocando las credenciales de su BD.
+Una ves creada la base de datos procedemos a configurar las variables de conexión de nuestra base de datos y la BASE_URL, las cuales las encontrará en ./config/constant.php, colocando las credenciales de su BD.
 
 Ejemplo de configuración:
 
 ```php
+
+define('BASE_DIR', 'http://localhost');
+
 define('DB_CONFIG', [
     'HOST' => 'db',
     'USER' => 'miuser',
