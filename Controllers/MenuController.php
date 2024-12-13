@@ -112,10 +112,50 @@ class MenuController {
             'description' => request->post('descripcion'),
             'parent_id' => request->post('padre') 
         ];
-        
-        $menuModel = new MenuModel();
-        $menuModel->insert($data);
 
-        Router::redirect('/Menus');
+        $messages = [
+            'error' => [],
+        ];
+
+        if($data['name'] == null || strlen($data['name'])<1 ) {
+            array_push($messages['error'], 'El nombre no puede estar vacío.');
+        }
+        
+        if($data['description'] == null || strlen($data['description'])<1 ) {
+            array_push($messages['error'], 'La descripción no puede estar vacía.');
+        }
+
+        $menuModel = new MenuModel();
+        $datos = $menuModel->getAll();
+        
+        if (sizeof($messages['error'])>0) {
+
+            View::getView('shared/head');
+            View::getView('Form',[
+                'select' => $datos,
+                'data' => $data,
+                'action' => '/alta',
+                'messages' => $messages,
+            ]);
+            View::getView('shared/footer');
+            return;
+        }
+        
+        try {
+            $menuModel->insert($data);
+            $messages['success'] = [
+                'Se ha registrado un nuevo elemento al menú'
+            ];
+        } catch (\Throwable $th) {
+            array_push($messages['error'], 'Ocurrio un error al registrar la información.');
+        }
+        View::getView('shared/head');
+        View::getView('Form',[
+            'select' => $datos,
+            'action' => '/alta',
+            'messages' => $messages,
+        ]);
+        View::getView('shared/footer');
+
     }
 }
