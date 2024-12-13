@@ -27,8 +27,8 @@
                 <td><?= $data[$i]['parent_name'] ?></td>
                 <td><?= $data[$i]['description']?></td>
                 <td class="actions">
-                    <a href="/editar/<?= $data[$i]['id']?>" class="btn bg-warning"><img src="/public/imgs/pencil-fill.svg" width="14"> Editar</a>
-                    <a href="/elimina/<?= $data[$i]['id']?>" class="btn bg-danger"><img src="/public/imgs/trash3-fill.svg" width="14"> Eliminar</a>
+                    <a href="/editar/<?= $data[$i]['id']?>" class="btn bg-warning"><span class="action-button-span"><img src="/public/imgs/pencil-fill.svg" width="14"> Editar</span></a>
+                    <a href="/elimina/<?= $data[$i]['id']?>" class="btn bg-danger"><span class="action-button-span"><img src="/public/imgs/trash3-fill.svg" width="14"> Eliminar</span></a>
                 </td>
             </tr>
             <?php
