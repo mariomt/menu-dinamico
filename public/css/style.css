@@ -17,6 +17,24 @@ body {
     font-size: 14px;
 }
 
+.error-container {
+    background-color: #b35e5e;
+    border: 1px solid #b35e5e;
+}
+
+.error-container,
+.success-container {
+    color: black;
+    font-weight: 700;
+    margin: 10px;
+    padding: 10px 20px;
+}
+
+.success-container {
+    background-color: #77bb50;
+    border: 1px solid #77bb50;
+}
+
 .first-nav {
     background-color: var(--primary-color);
     height: var(--nav-height);
@@ -60,6 +78,10 @@ body {
     height: inherit;
     padding: 10px 15px;
     display: block
+}
+
+.navigation-container li a img {
+    vertical-align: middle;
 }
 
 .navigation-container .navigation-container {
@@ -248,8 +270,10 @@ tbody tr:nth-child(even) {
     color: white;
 }
 
-.actions button:not(:last-of-type) {
-    margin-right: 5px;
+
+.action-button-span {
+    display: inline-block;
+    margin: 5px;
 }
 
 .text-center {
