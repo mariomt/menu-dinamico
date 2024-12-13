@@ -2,7 +2,7 @@
 function renderMenu($menu) {
     $html = '<ul class="navigation-container">';
     foreach ($menu as $item) {
-        $html .= '<li><a href="/menu/' . $item['id'] . '">' . htmlspecialchars($item['name']) . '</a>';
+        $html .= '<li><a href="/menu/' . $item['id'] . '">' . htmlspecialchars($item['name']) .((!empty($item['content']))? '<img src="/public/imgs/caret-down-fill.svg"/>':'') . '</a>';
         if (!empty($item['content'])) {
             $html .= renderMenu($item['content']); // Llamada recursiva para los submenús
         }
