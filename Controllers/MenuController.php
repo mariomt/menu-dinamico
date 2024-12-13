@@ -63,6 +63,10 @@ class MenuController {
             $messages = [
                 'error' => [],
             ];
+
+            if ($data['parent_id'] == $params['id']) {
+                array_push($messages['error'], 'No puedes relacionar el elemento consigo mismo.');
+            }
     
             if($data['name'] == null || strlen($data['name'])<1 ) {
                 array_push($messages['error'], 'El nombre no puede estar vacío.');
