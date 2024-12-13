@@ -2,6 +2,8 @@
     <a>Eliminar Menú</a>
 </nav>
 
+<?php require VIEWS_PATH.'shared/feedback.php' ?>
+
 <h2 class="text-center">¿Seguro que desea eliminar el siguiente Menú?</h2>
 
 <form action="" class="form-container">

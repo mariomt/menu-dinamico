@@ -1,7 +1,7 @@
 <nav class="first-nav">
     <a>Formulario</a>
 </nav>
-
+<?php require VIEWS_PATH.'shared/feedback.php' ?>
 <form action="<?= $action; ?>" method="POST" class="form-container">
     <input type="text" name="id" hidden>
     <div class="form">

@@ -2,6 +2,9 @@
     <a href="/menu">Menú</a>
     <a href="/alta" class="btn bg-success">+ Nuevo</a>
 </nav>
+
+<?php require VIEWS_PATH.'shared/feedback.php' ?>
+
 <div class="table-container">
     <table>
         <thead>
