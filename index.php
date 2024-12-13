@@ -5,12 +5,16 @@ require_once './Config/Views.php';
 
 Router::get('/', 'BaseController', 'index');
 Router::get('/menu', 'BaseController', 'inicio');
+Router::get('/menu/{id}', 'BaseController', 'inicio');
 Router::get('/Menus', 'MenuController', 'index');
 
 Router::get('/alta', 'MenuController', 'alta');
-Router::post('/guarda', 'MenuController', 'guarda');
+Router::post('/alta', 'MenuController', 'guarda');
 
-Router::get('/editar', 'MenuController', 'editar');
-Router::get('/elimina', 'MenuController', 'elimina');
+Router::get('/editar/{id}', 'MenuController', 'editar');
+Router::post('/editar/{id}', 'MenuController', 'editar');
+
+Router::get('/elimina/{id}', 'MenuController', 'elimina');
+Router::post('/elimina/{id}', 'MenuController', 'elimina');
 
 Router::dispatch(request->url, request->requestMethod);

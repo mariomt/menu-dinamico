@@ -1,15 +1,41 @@
 <?php
-
+require_once MODELS_PATH . 'MenuModel.php';
 class BaseController {
 
     public function index() {
-        echo 'Hola desde el indes de base controller';
+        View::getView('HomeView');
     }
 
-    public function inicio() {
         
+    /**
+     * Este método renderiza la vista del menu general o menú seleccionado
+     *
+     * @param  array $params
+     * @return void
+     */
+    public function inicio($params) {
+        $menuModel = new MenuModel();
+        $data = $menuModel->getAll();
+
+        if (sizeof($params) > 0) {
+            $found_key = array_search($params['id'], array_column($data, 'id'));
+            if($found_key === false) {
+                $description = 'No se encontró la opción buscada';
+            } else {
+                $description = $data[$found_key]['description'];
+            }
+        } else {
+            $description = 'No se ha seleccionado opción del menú 🙄';
+        }
+
+        require_once HELPERS_PATH . 'MenuHelpers.php';
+        $menu = buildMenuHierarchy($data);
+
         View::getView('shared/head');
-        View::getView('Menu', ['title' => 'prueba', "name" => "Mario"]);
+        View::getView('Menu', [
+            'menu' => renderMenu($menu),
+            'description' => $description,
+        ]);
         View::getView('shared/footer');
     }
 }

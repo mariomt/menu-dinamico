@@ -3,7 +3,8 @@ require_once MODELS_PATH . 'MenuModel.php';
 class MenuController {
     public function index() {
         $menuModel = new MenuModel();
-        $datos = $menuModel->getAll();
+        $datos = $menuModel->getAllWithParentName();
+
         View::getView('shared/head');
         View::getView('ListMenus',['data' => $datos]);
         View::getView('shared/footer');
@@ -11,15 +12,44 @@ class MenuController {
     }
 
     public function alta() {
+        $menuModel = new MenuModel();
+        $datos = $menuModel->getAll();
         View::getView('shared/head');
-        View::getView('Alta');
+        View::getView('Form',[
+            'select' => $datos,
+            'action' => '/alta'
+        ]);
         View::getView('shared/footer');
     }
 
-    public function editar() {
-        View::getView('shared/head');
-        View::getView('Alta');
-        View::getView('shared/footer');
+    public function editar($params) {
+        $menuModel = new MenuModel();
+        if(request->requestMethod == 'POST') {
+            $data = [
+                'name' => request->post('nombre'),
+                'description' => request->post('descripcion'),
+                'parent_id' => request->post('padre') 
+            ];
+            $menuModel->update($params['id'], $data);
+            Router::redirect('/Menus');
+        } else {
+            $data = $menuModel->getAll();
+            $found_key = array_search($params['id'], array_column($data, 'id'));
+            
+            if($found_key === false) {
+                // TODO: hacer validación para cuando se ingresa a editar un elemento que no existe
+            } else {
+                $selected = $data[$found_key]; 
+            }
+
+            View::getView('shared/head');
+            View::getView('Form', [
+                'select' => $data,
+                'action' => "/editar/{$selected['id']}",
+                'data' => $selected,
+            ]);
+            View::getView('shared/footer');
+        }
     }
 
     public function elimina() {
@@ -39,6 +69,6 @@ class MenuController {
         $menuModel = new MenuModel();
         $menuModel->insert($data);
 
-        $this->index();
+        Router::redirect('/Menus');
     }
 }
