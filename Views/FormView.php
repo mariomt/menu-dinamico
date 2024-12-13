@@ -15,7 +15,7 @@
                 if($select && is_array($select)) {
                     for ($i=0; $i < sizeof($select) ; $i++) {
             ?>
-                <option value="<?= $select[$i]['id'] ?>" <?= ($select[$i]['id'] == $data['parent_id'])? 'selected': ''?>><?=$select[$i]['name']?></option>
+                <option value="<?= $select[$i]['id'] ?>" <?= (isset($data['parent_id']) && $select[$i]['id'] == $data['parent_id'])? 'selected': ''?>><?=$select[$i]['name']?></option>
             <?php
                     }
                 }
