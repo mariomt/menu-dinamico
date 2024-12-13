@@ -2,13 +2,11 @@
 
 Este proyecto consta de una pequeña aplicación que realiza un menú dinámico con Programación Orientada a Objetos 🧩.
 
-Este proyecto está orientado un poco, en la estructura de carpetas de varios framework que a lo largo de mi carrera he probado, como son: Codeigniter, Laravel y Lummen.
+Este proyecto está un poco orientado en la estructura de carpetas de varios frameworks que a lo largo de mi carrera he probado, como son: Codeigniter, Laravel y Lummen.
 
 Para la realización de este proyecto no se utilizó ningún tipo de prepocesador, librería, framework php, css o html.
 
 > Esta aplicación puede ser probada utilizando los contenedores de Docker, más abajo las instrucciones.
-
-> Esta aplicación tiene mucho margen de mejora, por el tiempo otorgado y por el tiempo disponible, se ha realizado lo posible.
 
 ## Despliegue 🚀
 
