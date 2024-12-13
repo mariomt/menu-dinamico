@@ -1,0 +1,23 @@
+version: '3.7'
+
+services:
+  php:
+    build: ./apache
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - "8080:80"
+    depends_on:
+      - db  
+
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: tu_contraseña_root
+      MYSQL_DATABASE: tu_base_de_datos
+      MYSQL_USER: tu_usuario
+      MYSQL_PASSWORD: tu_contraseña
+    ports:
+      - "3308:3306"
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d
