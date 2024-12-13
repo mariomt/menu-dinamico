@@ -29,7 +29,7 @@ class Request {
     /**
      * Método auxiliar para poder generar la instancia de la clase o obtener la instancia ya crada.
      *
-     * @return void
+     * @return object
      */
     public static function getInstance() {
         if (self::$instance === null) {
@@ -42,8 +42,8 @@ class Request {
     /**
      * Método que nos permite extraer una propiedad del body de la solicitud.
      *
-     * @param  mixed $key
-     * @return void
+     * @param  string $key
+     * @return string
      */
     public function post($key) {
         $value = $this->post[$key] ?? null;
@@ -58,8 +58,8 @@ class Request {
     /**
      * Método que nos permite extraer una propiedad de los query params pasados en la solicitud.
      *
-     * @param  mixed $key
-     * @return void
+     * @param  string $key
+     * @return string
      */
     public function get($key) {
         $value = $this->get[$key] ?? null;
