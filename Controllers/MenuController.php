@@ -52,27 +52,70 @@ class MenuController {
      */
     public function editar($params) {
         $menuModel = new MenuModel();
+        $datos = $menuModel->getAll();
         if(request->requestMethod == 'POST') {
             $data = [
                 'name' => request->post('nombre'),
                 'description' => request->post('descripcion'),
                 'parent_id' => request->post('padre') 
             ];
-            $menuModel->update($params['id'], $data);
-            Router::redirect('/Menus');
+
+            $messages = [
+                'error' => [],
+            ];
+    
+            if($data['name'] == null || strlen($data['name'])<1 ) {
+                array_push($messages['error'], 'El nombre no puede estar vacío.');
+            }
+            
+            if($data['description'] == null || strlen($data['description'])<1 ) {
+                array_push($messages['error'], 'La descripción no puede estar vacía.');
+            }
+
+            if (sizeof($messages['error'])>0) {
+
+                View::getView('shared/head');
+                View::getView('Form',[
+                    'select' => $datos,
+                    'data' => $data,
+                    'action' => '/alta',
+                    'messages' => $messages,
+                ]);
+                View::getView('shared/footer');
+                return;
+            }
+            
+            try {
+                $menuModel->update($params['id'], $data);
+                $messages['success'] = [
+                    'Datos guardados con éxito.'
+                ];
+            } catch (\Throwable $th) {
+                array_push($messages['error'], 'Ocurrio un error al registrar la información.');
+            }
+
+            View::getView('shared/head');
+            View::getView('Form',[
+                'select' => $datos,
+                'data' => $data,
+                'action' => '/alta',
+                'messages' => $messages,
+            ]);
+            View::getView('shared/footer');
+
+
         } else {
-            $data = $menuModel->getAll();
-            $found_key = array_search($params['id'], array_column($data, 'id'));
+            $found_key = array_search($params['id'], array_column($datos, 'id'));
             
             if($found_key === false) {
                 View::getView('NotFound', [
                     'message' => 'No se ha encontrádo la opción del menú que desea eliminar.',
                 ]);
             } else {
-                $selected = $data[$found_key]; 
+                $selected = $datos[$found_key]; 
                 View::getView('shared/head');
                 View::getView('Form', [
-                    'select' => $data,
+                    'select' => $datos,
                     'action' => "/editar/{$selected['id']}",
                     'data' => $selected,
                 ]);
