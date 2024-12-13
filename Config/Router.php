@@ -48,7 +48,7 @@ class Router {
         }
 
         http_response_code(404);
-        echo 'No se encontró la página';
+        View::getView('NotFound');
     }
 
     public static function redirect($url) {
