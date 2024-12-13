@@ -1,6 +1,14 @@
 <?php
 require_once MODELS_PATH . 'MenuModel.php';
+/**
+ * Clase contenedora de todas las acciones posibles para realizar con la gestión de menús
+ */
 class MenuController {
+    /**
+     * Método para renderizar la vista de la tabla de menus, donde se podrá realizar las operaciones de agregar, modificar y eliminar.
+     *
+     * @return void
+     */
     public function index() {
         $messages = [];
         if (request->get('new') != null) {
@@ -19,7 +27,12 @@ class MenuController {
         View::getView('shared/footer');
 
     }
-
+    
+    /**
+     * Método que renderiza el formulario para registrar un nuevo menú
+     *
+     * @return void
+     */
     public function alta() {
         $menuModel = new MenuModel();
         $datos = $menuModel->getAll();
@@ -30,7 +43,13 @@ class MenuController {
         ]);
         View::getView('shared/footer');
     }
-
+    
+    /**
+     * Método que permite visualizar la vista de edición y editar los datos modificados.
+     *
+     * @param  array $params Arreglo con los parametros de la url, por ejemplo el id. 
+     * @return void
+     */
     public function editar($params) {
         $menuModel = new MenuModel();
         if(request->requestMethod == 'POST') {
@@ -62,6 +81,12 @@ class MenuController {
 
         }
     }
+    /*
+     * Método para mostrar la vista de eliminación de menus y maneja la petición de eliminación.
+     * 
+     * @param  mixed $params
+     * @return void
+     */
     public function elimina($params) {
         $menuModel = new MenuModel();
         $data = $menuModel->getAll();
@@ -105,6 +130,12 @@ class MenuController {
             }
         }
     }
+    
+    /**
+     * Método para gestionar la petición post de guardado de un nuevo menú
+     *
+     * @return void
+     */
     public function guarda() {
 
         $data = [

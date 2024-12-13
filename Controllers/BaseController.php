@@ -1,7 +1,17 @@
 <?php
 require_once MODELS_PATH . 'MenuModel.php';
+/**
+ * BaseController
+ * 
+ * Controlador base que se utiliza para los endpoints principales
+ */
 class BaseController {
-
+    
+    /**
+     * Método que renderiza la vista HomeView.
+     * La vista HomeView contiene dos botones para dirigirnos a la opción adecuada.
+     * @return void
+     */
     public function index() {
         View::getView('HomeView');
     }

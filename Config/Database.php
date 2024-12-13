@@ -8,7 +8,13 @@
 class Database {
     private static $instance = null;
     private $pdo;
-
+    
+    /**
+     * Método contructor para generar la instancia de la clase que se encarga
+     * de gestionar la conexión a la base de datos.
+     * El método es privado para poder implementar el patron singleton.
+     * @return void
+     */
     private function __construct()
     {
         try {
@@ -34,7 +40,12 @@ class Database {
             die($messageError);
         }
     }
-
+    
+    /**
+     * Método estático auxilar que permitirá generar la instancia de la clase.
+     *
+     * @return void
+     */
     public static function getInstance() {
         if (self::$instance === null) {
             self::$instance = new self();
@@ -42,7 +53,12 @@ class Database {
 
         return self::$instance;
     }
-
+    
+    /**
+     * Método que devuelve la conneción para poder realizar operaciones en la base de datos.
+     *
+     * @return void
+     */
     public function getConnection() {
         return $this->pdo;
     }
