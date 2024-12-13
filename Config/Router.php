@@ -87,7 +87,8 @@ class Router {
      * @return void
      */
     public static function redirect($url) {
-        header("Location: {$url}");
+        $newURL = getURL($url);
+        header("Location: {$newURL}");
         exit;
     }
 }

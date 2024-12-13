@@ -22,7 +22,8 @@ class Request {
         $this->post = $_POST;
         $this->get = $_GET;
         $this->uri = $_SERVER['REQUEST_URI'];
-        $this->url = parse_url($this->uri)['path'];
+        $basePath = parse_url(BASE_DIR, PHP_URL_PATH);
+        $this->url = str_replace($basePath, '', $this->uri);
         $this->requestMethod = $_SERVER['REQUEST_METHOD'];
     }
     

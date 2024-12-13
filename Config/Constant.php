@@ -10,6 +10,8 @@ define('HELPERS_PATH', __DIR__."/../helpers/");
 
 define('DEBUG', true);
 
+define('BASE_DIR', 'http://localhost');
+
 define('DB_CONFIG', [
     'HOST' => 'localhost',
     'USER' => '',

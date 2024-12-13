@@ -2,7 +2,7 @@
     <a>Formulario</a>
 </nav>
 <?php require VIEWS_PATH.'shared/feedback.php' ?>
-<form action="<?= $action; ?>" method="POST" class="form-container">
+<form action="<?= getURL($action); ?>" method="POST" class="form-container">
     <input type="text" name="id" hidden>
     <div class="form">
         <div class="lbl">
@@ -36,7 +36,7 @@
         </div>
     </div>
     <div class="form-controls">
-        <a href="/Menus" class="btn btn-withe btn-md">Cancelar</a>
+        <a href="<?= getURL('/Menus'); ?>" class="btn btn-withe btn-md">Cancelar</a>
         <button type="submit" class="btn btn-primary btn-md">Guardar</button>
     </div>
 </form>

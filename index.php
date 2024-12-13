@@ -1,5 +1,6 @@
 <?php
 require_once './Config/Constant.php';
+require_once './helpers/GlobalHelpers.php';
 require_once './Config/Router.php';
 require_once './Config/Views.php';
 

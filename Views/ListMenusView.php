@@ -1,6 +1,6 @@
 <nav class="first-nav">
-    <a href="/menu">Menú</a>
-    <a href="/alta" class="btn bg-success">+ Nuevo</a>
+    <a href="<?= getURL('/menu'); ?>">Menú</a>
+    <a href="<?= getURL('/alta'); ?>" class="btn bg-success">+ Nuevo</a>
 </nav>
 
 <?php require VIEWS_PATH.'shared/feedback.php' ?>
@@ -27,8 +27,8 @@
                 <td><?= $data[$i]['parent_name'] ?></td>
                 <td><?= $data[$i]['description']?></td>
                 <td class="actions">
-                    <a href="/editar/<?= $data[$i]['id']?>" class="btn bg-warning"><span class="action-button-span"><img src="/public/imgs/pencil-fill.svg" width="14"> Editar</span></a>
-                    <a href="/elimina/<?= $data[$i]['id']?>" class="btn bg-danger"><span class="action-button-span"><img src="/public/imgs/trash3-fill.svg" width="14"> Eliminar</span></a>
+                    <a href="<?= getURL('/editar'); ?>/<?= $data[$i]['id']?>" class="btn bg-warning"><span class="action-button-span"><img src="<?= getURL('/public/imgs/pencil-fill.svg'); ?>" width="14"> Editar</span></a>
+                    <a href="<?= getURL('/elimina'); ?>/<?= $data[$i]['id']?>" class="btn bg-danger"><span class="action-button-span"><img src="<?= getURL('/public/imgs/trash3-fill.svg'); ?>" width="14"> Eliminar</span></a>
                 </td>
             </tr>
             <?php

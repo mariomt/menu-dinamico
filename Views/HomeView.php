@@ -46,8 +46,8 @@
         }
     </style>
     <div class="container">
-        <a href="/menu" class="btn btn-primary">Menú</a>
-        <a href="/Menus" class="btn btn-secondary">Operaciones</a>
+        <a href="<?= getURL('/menu'); ?>" class="btn btn-primary">Menú</a>
+        <a href="<?= getURL('/Menus'); ?>" class="btn btn-secondary">Operaciones</a>
     </div>
 </body>
 </html>
