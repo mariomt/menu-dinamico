@@ -1,6 +1,6 @@
 <?php
 
-require CONFIG_PATH . '/Request.php';
+use Config\Request;
 
 /**
  * Función que concatena en BASE_DIR con el path indicado

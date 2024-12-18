@@ -1,6 +1,11 @@
 <?php
 
-require_once MODELS_PATH . 'MenuModel.php';
+namespace Controllers;
+
+use Models\MenuModel;
+use Config\View;
+use Config\Router;
+
 /**
  * Clase contenedora de todas las acciones posibles para realizar con la gestión de menús
  */

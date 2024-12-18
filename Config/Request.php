@@ -1,5 +1,7 @@
 <?php
 
+namespace Config;
+
 /**
  * Clase que nos permite mapear información del request y tenerla en un objeto.
  * Esta clase implementa el patrón singleton para solo tener una instancia por solicitud.

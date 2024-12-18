@@ -1,6 +1,10 @@
 <?php
 
-require_once MODELS_PATH . 'MenuModel.php';
+namespace Controllers;
+
+use Config\View;
+use Models\MenuModel;
+
 /**
  * BaseController
  *

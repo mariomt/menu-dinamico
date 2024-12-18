@@ -1,6 +1,7 @@
 <?php
 
-require_once MODELS_PATH . 'BaseModel.php';
+namespace Models;
+
 class MenuModel extends BaseModel
 {
     protected $table = 'menus';

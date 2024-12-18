@@ -2,8 +2,16 @@
 
 require_once './Config/Constant.php';
 require_once './helpers/GlobalHelpers.php';
-require_once './Config/Router.php';
 require_once './Config/Views.php';
+
+use Config\Router;
+
+spl_autoload_register(function($class){
+    $file = str_replace('\\','/', $class) . '.php';
+    if(file_exists($file)) {
+        require_once $file;
+    }
+});
 
 Router::get('/', 'BaseController', 'index');
 Router::get('/menu', 'BaseController', 'inicio');

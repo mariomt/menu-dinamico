@@ -1,6 +1,10 @@
 <?php
 
-include_once CONFIG_PATH . 'Database.php';
+namespace Models;
+
+use Config\Database;
+use PDO;
+
 abstract class BaseModel
 {
     protected $pdo;

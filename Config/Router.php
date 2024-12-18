@@ -1,5 +1,7 @@
 <?php
 
+namespace Config;
+
 /**
  * Clase que permite registrar y gestionar las rutas de la aplicación.
  * Esta clase permite tener una abstacción del manejo de rutas en la aplicación.
@@ -38,7 +40,7 @@ class Router
      */
     public static function post($uri, $Controller, $ControllerMethod)
     {
-        self::$routes[$uri] = [
+        self::$routes[] = [
             'method' => 'POST',
             'uri' => self::parseUri($uri),
             'controller' => $Controller,
@@ -75,8 +77,9 @@ class Router
         foreach (self::$routes as $route) {
             if ($route['method'] === $requestMethod && preg_match($route['uri'], $uri, $matches)) {
                 $params = array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY);
-                require_once __DIR__ . '/../Controllers/' . $route['controller'] . '.php';
-                $controller = new $route['controller']();
+                require_once CONTROLLERS_PATH . '/' . $route['controller'] . '.php';
+                $controllerpath = "Controllers\\" . $route['controller'];
+                $controller = new $controllerpath();
                 return $controller->{$route['function']}($params);
             }
         }

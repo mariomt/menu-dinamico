@@ -1,5 +1,10 @@
 <?php
 
+namespace Config;
+
+use Exception;
+use Throwable;
+
 /**
  * Clase para resolver las vistas e inyectarles variables.
  */

@@ -1,5 +1,9 @@
 <?php
 
+namespace Config;
+
+use PDO;
+
 /**
  * Database
  *
@@ -45,7 +49,7 @@ class Database
     /**
      * Método estático auxilar que permitirá generar la instancia de la clase.
      *
-     * @return void
+     * @return Database
      */
     public static function getInstance()
     {
@@ -59,7 +63,7 @@ class Database
     /**
      * Método que devuelve la conneción para poder realizar operaciones en la base de datos.
      *
-     * @return void
+     * @return PDO
      */
     public function getConnection()
     {
