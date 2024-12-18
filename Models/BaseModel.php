@@ -1,6 +1,8 @@
 <?php
+
 include_once CONFIG_PATH . 'Database.php';
-abstract class BaseModel {
+abstract class BaseModel
+{
     protected $pdo;
     protected $allow_fields;
     protected $table;
@@ -10,7 +12,8 @@ abstract class BaseModel {
         $this->pdo = Database::getInstance()->getConnection();
     }
 
-    public function getAll() {
+    public function getAll()
+    {
         if (isset($this->allow_fields) && is_array($this->allow_fields)) {
             $fields = implode(",", $this->allow_fields);
         } else {
@@ -21,7 +24,8 @@ abstract class BaseModel {
         return $stmt->fetchAll();
     }
 
-    public function getById($id) {
+    public function getById($id)
+    {
         if (isset($this->allow_fields) && is_array($this->allow_fields)) {
             $fields = implode(",", $this->allow_fields);
         } else {
@@ -34,7 +38,8 @@ abstract class BaseModel {
         return $stmt->fetch();
     }
 
-    public function insert($data) {
+    public function insert($data)
+    {
         $columns = implode(", ", array_keys($data));
         $placeholders = ":" . implode(", :", array_keys($data));
         $sql = "INSERT INTO {$this->table}($columns) VALUES ($placeholders)";
@@ -42,7 +47,8 @@ abstract class BaseModel {
         return $stmt->execute($data);
     }
 
-    public function update($id, $data) {
+    public function update($id, $data)
+    {
         $fields = [];
         foreach ($data as $key => $value) {
             $fields[] = "$key = :$key";
@@ -55,7 +61,8 @@ abstract class BaseModel {
         return $stmt->execute($data);
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
         $stmt = $this->pdo->prepare("DELETE FROM {$this->table} WHERE id = :id");
         $stmt->bindParam(":id", $id, PDO::PARAM_INT);
         return $stmt->execute();

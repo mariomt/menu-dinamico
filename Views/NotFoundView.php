@@ -65,7 +65,7 @@
     <div class="container">
         <div class="notfound">
             <h3>¡Oops! 😣</h3>
-            <p><?= isset($message)? $message : "No se encontró el recurso solicitado"; ?></p>
+            <p><?= isset($message) ? $message : "No se encontró el recurso solicitado"; ?></p>
         </div>
         <div class="buttons-container">
             <a href="<?= getURL('/menu'); ?>" class="btn btn-primary">Menú</a>

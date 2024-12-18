@@ -1,4 +1,5 @@
 <?php
+
 require_once './Config/Constant.php';
 require_once './helpers/GlobalHelpers.php';
 require_once './Config/Router.php';
@@ -18,4 +19,4 @@ Router::post('/editar/{id}', 'MenuController', 'editar');
 Router::get('/elimina/{id}', 'MenuController', 'elimina');
 Router::post('/elimina/{id}', 'MenuController', 'elimina');
 
-Router::dispatch(request->url, request->requestMethod);
+Router::dispatch(request()->url, request()->requestMethod);

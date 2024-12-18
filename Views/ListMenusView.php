@@ -3,7 +3,7 @@
     <a href="<?= getURL('/alta'); ?>" class="btn bg-success">+ Nuevo</a>
 </nav>
 
-<?php require VIEWS_PATH.'shared/feedback.php' ?>
+<?php require VIEWS_PATH . 'shared/feedback.php' ?>
 
 <div class="table-container">
     <table>
@@ -18,9 +18,9 @@
         </thead>
         <tbody>
             <?php
-                if($data && is_array($data)) {
-                    for ($i=0; $i < sizeof($data) ; $i++) {
-            ?>
+            if ($data && is_array($data)) {
+                for ($i = 0; $i < sizeof($data); $i++) {
+                    ?>
             <tr>
                 <td><?= $data[$i]['id']?></td>
                 <td><?= $data[$i]['name']?></td>
@@ -31,9 +31,9 @@
                     <a href="<?= getURL('/elimina'); ?>/<?= $data[$i]['id']?>" class="btn bg-danger"><span class="action-button-span"><img src="<?= getURL('/public/imgs/trash3-fill.svg'); ?>" width="14"> Eliminar</span></a>
                 </td>
             </tr>
-            <?php
-                    }
+                    <?php
                 }
+            }
             ?>
 
         </tbody>

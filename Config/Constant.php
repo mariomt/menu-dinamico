@@ -1,12 +1,12 @@
 <?php
-require_once 'Request.php';
+
 // Directorio donde se almacenaran las vistas
-define('VIEWS_PATH', __DIR__."/../Views/");
+define('VIEWS_PATH', __DIR__ . "/../Views/");
 
-define('CONFIG_PATH', __DIR__."/");
+define('CONFIG_PATH', __DIR__ . "/");
 
-define('MODELS_PATH', __DIR__."/../Models/");
-define('HELPERS_PATH', __DIR__."/../helpers/");
+define('MODELS_PATH', __DIR__ . "/../Models/");
+define('HELPERS_PATH', __DIR__ . "/../helpers/");
 
 define('DEBUG', true);
 
@@ -20,5 +20,3 @@ define('DB_CONFIG', [
     'PORT' => '3306',
     'CHARSET' => 'utf8mb4'
 ]);
-
-define('request', Request::getInstance());
