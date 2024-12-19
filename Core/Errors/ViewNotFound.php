@@ -8,10 +8,17 @@ use Throwable;
 /**
  * Error personalizado para cuando no se encuentra una vista.
  */
-class ViewNotFound extends Exception
+class ViewNotFound extends FileNotFound
 {
-    public function __construct($message, $code = 0, Throwable $previous = null)
+    public function __construct($viewName, $code = 0, Throwable $previous = null)
     {
-        parent::__construct($message, $code, $previous);
+        if (!str_ends_with($viewName, 'View')) {
+            $viewName .= 'View';
+        }
+        
+        parent::__construct(
+            "No se encontró la vista " . $viewName . ".php, ni la vista " . $viewName . ".php", 
+            $code, $previous
+        );
     }
 }

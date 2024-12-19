@@ -5,9 +5,13 @@ namespace Core\Errors;
 use Exception;
 use Throwable;
 
-class HelperNotFound extends Exception {
-    public function __construct($message, $code = 0, Throwable $prev = null)
+class HelperNotFound extends FileNotFound {
+    public function __construct($helperName, $filePath, $code = 0, Throwable $prev = null)
     {
-        parent::__construct($message, $code, $prev);
+        parent::__construct(
+            "El herper '{$helperName}' no existe en la ruta {$filePath}", 
+            $code,
+            $prev
+        );
     }
 }

@@ -36,13 +36,13 @@ if (!function_exists('helper')) {
     function helper(string $helper)
     {
         if (!str_ends_with($helper, "Helper")) {
-            $helper = $helper . "Helper";
+            $helper .= "Helper";
         }
 
         $filePath = HELPERS_PATH . $helper . ".php";
 
         if ( !file_exists($filePath) ) {
-            throw new HelperNotFound("El herper '{$helper}' no existe en la ruta {$filePath}");
+            throw new HelperNotFound($helper, $filePath);
         }
 
         require_once $filePath;

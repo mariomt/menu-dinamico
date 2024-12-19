@@ -50,6 +50,9 @@
             text-align: center;
             margin-bottom: 10px;
         }
+        h1 {
+            text-align: center;
+        }
         .btn-secondary:hover {
             background-color:rgba(98, 165, 36, 0.8);
         }
@@ -64,8 +67,8 @@
     </style>
     <div class="container">
         <div class="notfound">
-            <h3>¡Oops! 😣</h3>
-            <p><?= isset($message) ? $message : "No se encontró el recurso solicitado"; ?></p>
+            <h1>Error 500</h1>
+            <h3><?= isset($message) ? $message : "Ocurrió un error interno, intentalo de nuevo más tarde."; ?></h3>
         </div>
         <div class="buttons-container">
             <a href="<?= getURL('/menu'); ?>" class="btn btn-primary">Menú</a>

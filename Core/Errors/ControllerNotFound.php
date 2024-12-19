@@ -2,12 +2,20 @@
 
 namespace Core\Errors;
 
-use Exception;
 use Throwable;
 
-class ControllerNotFound extends Exception {
-    public function __construct($message, $code = 0, Throwable $previous = null)
+class ControllerNotFound extends FileNotFound {
+
+    public function __construct($controllerName, $code = 0, Throwable $previous = null)
     {
-        parent::__construct($message, $code, $previous);
+        if (!str_ends_with($controllerName, "Helper")) {
+            $controllerName .= "Helper";
+        }
+
+        parent::__construct(
+            "No se encontró el controlador '{$controllerName}'.",
+            $code,
+            $previous
+        );
     }
 }

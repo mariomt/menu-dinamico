@@ -4,6 +4,17 @@ namespace Core;
 
 class Validator 
 {
+    private array $rules = [];
+
+    public function __construct(array $rules)
+    {
+        $this->rules = $rules;
+    }
+
+    public function run(array $data) {
+        return self::validate($data, $this->rules);
+    }
+
     public static function validate(array $data, array $rules)
     {
         $errors = [];
@@ -17,7 +28,7 @@ class Validator
                 $ruleName = $ruleParts[0];
                 $ruleParam = $ruleParts[1] ?? null;
 
-                if ($ruleName == 'required' && is_null($value)) {
+                if ($ruleName == 'required' && (is_null($value) || (is_string($value) && strlen($value)<1))) {
                     $errors[$field][] = "El campo {$field} es obligatorio";
                 }
 

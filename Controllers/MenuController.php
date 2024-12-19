@@ -2,15 +2,28 @@
 
 namespace Controllers;
 
-use Models\MenuModel;
-use Core\View;
+use Core\BaseController;
+use Core\Errors\ValidationsError;
 use Core\Router;
+use Core\Validator;
+use Models\Menu;
+use Traits\ErrorLogger;
 
 /**
  * Clase contenedora de todas las acciones posibles para realizar con la gestión de menús
  */
-class MenuController
+class MenuController extends BaseController
 {
+
+    use ErrorLogger;
+
+    function __construct()
+    {
+        $this->validator = new Validator([
+            'nombre' => 'required|max:50',
+            'descripcion' => 'required',
+        ]);
+    }
     /**
      * Método para renderizar la vista de la tabla de menus, donde se podrá realizar las operaciones de agregar, modificar y eliminar.
      *
@@ -24,8 +37,7 @@ class MenuController
                 'Se ha registrado un nuevo elemento al menú',
             ];
         }
-        $menuModel = new MenuModel();
-        $datos = $menuModel->getAllWithParentName();
+        $datos = Menu::getAllWithParentName();
 
         view('shared/head');
         view('ListMenus', [
@@ -42,8 +54,7 @@ class MenuController
      */
     public function alta()
     {
-        $menuModel = new MenuModel();
-        $datos = $menuModel->getAll();
+        $datos = Menu::all();
         view('shared/head');
         view('Form', [
             'select' => $datos,
@@ -60,77 +71,69 @@ class MenuController
      */
     public function editar($params)
     {
-        $menuModel = new MenuModel();
-        $datos = $menuModel->getAll();
-        if (request()->requestMethod == 'POST') {
-            $data = [
-                'name' => request()->post('nombre'),
-                'description' => request()->post('descripcion'),
-                'parent_id' => request()->post('padre')
-            ];
+        $datos = Menu::all();
 
+        $menu = Menu::find($params['id']);
+
+        if (is_null($menu)) {
+            view('errors/NotFound', [
+                'message' => 'No se ha encontrado la opción del menú que desea editar.',
+            ]);
+        }
+
+        if (request()->requestMethod == 'POST') {
             $messages = [
                 'error' => [],
             ];
 
-            if ($data['parent_id'] == $params['id']) {
-                array_push($messages['error'], 'No puedes relacionar el elemento consigo mismo.');
-            }
-
-            if ($data['name'] == null || strlen($data['name']) < 1) {
-                array_push($messages['error'], 'El nombre no puede estar vacío.');
-            }
-
-            if ($data['description'] == null || strlen($data['description']) < 1) {
-                array_push($messages['error'], 'La descripción no puede estar vacía.');
-            }
-
-            if (sizeof($messages['error']) > 0) {
-                view('shared/head');
-                view('Form', [
-                    'select' => $datos,
-                    'data' => $data,
-                    'action' => '/alta',
-                    'messages' => $messages,
-                ]);
-                view('shared/footer');
-                return;
-            }
-
             try {
-                $menuModel->update($params['id'], $data);
+                $this->runValidations(request()->post());
+
+                $menu->name = request()->post('nombre');
+                $menu->description = request()->post('descripcion');
+                $menu->parent_id = request()->post('padre');
+
+
+                if ($menu->parent_id == $menu->id) {
+                    throw new ValidationsError("No puedes relacionar el elemento consigo mismo.");
+                }
+
+                $menu->save();
+
                 $messages['success'] = [
                     'Datos guardados con éxito.'
                 ];
+
+            } catch (ValidationsError $verror) {
+                if (sizeof($verror->getErrors())>0) {
+                    foreach ($verror->getErrors() as $key => $value) {
+                        foreach ($value as $err) {
+                            array_push($messages['error'], $err);
+                        }
+                    }
+                }
             } catch (\Throwable $th) {
                 array_push($messages['error'], 'Ocurrio un error al registrar la información.');
+                $this->logError($th);
             }
 
             view('shared/head');
             view('Form', [
                 'select' => $datos,
-                'data' => $data,
-                'action' => '/alta',
+                'data' => $menu,
+                'action' => "/editar/{$menu->id}",
                 'messages' => $messages,
             ]);
             view('shared/footer');
         } else {
-            $found_key = array_search($params['id'], array_column($datos, 'id'));
 
-            if ($found_key === false) {
-                view('NotFound', [
-                    'message' => 'No se ha encontrádo la opción del menú que desea eliminar.',
-                ]);
-            } else {
-                $selected = $datos[$found_key];
-                view('shared/head');
-                view('Form', [
-                    'select' => $datos,
-                    'action' => "/editar/{$selected['id']}",
-                    'data' => $selected,
-                ]);
-                view('shared/footer');
-            }
+            view('shared/head');
+            view('Form', [
+                'select' => $datos,
+                'action' => "/editar/{$menu->id}",
+                'data' => $menu,
+            ]);
+            view('shared/footer');
         }
     }
     /*
@@ -141,28 +144,27 @@ class MenuController
      */
     public function elimina($params)
     {
-        $menuModel = new MenuModel();
-        $data = $menuModel->getAll();
-        $found_key = array_search($params['id'], array_column($data, 'id'));
 
-        if ($found_key === false) {
-            view('NotFound', [
-                'message' => 'No se ha encontrádo la opción del menú que desea eliminar.',
+        $found = Menu::find($params['id']);
+        $data = Menu::all();
+
+        if (is_null($found)) {
+            view('errors/NotFound', [
+                'message' => 'No se ha encontrado la opción del menú que desea eliminar.',
             ]);
         } else {
-            $selected = $data[$found_key];
             if (request()->requestMethod == 'POST') {
                 try {
                     //code...
-                    $menuModel->delete($params['id']);
+                    $found->delete();
                     Router::redirect('/Menus');
                 } catch (\Throwable $th) {
                     if (str_contains($th->getMessage(), "a foreign key constraint fails")) {
                         view('shared/head');
                         view('Elimina', [
                             'select' => $data,
-                            'action' => "/elimina/{$selected['id']}",
-                            'data' => $selected,
+                            'action' => "/elimina/{$found->id}",
+                            'data' => $found,
                             'messages' => [
                                 'error' => [
                                     'No se puede eliminar un menú que tiene menús hijos.'
@@ -176,8 +178,8 @@ class MenuController
                 view('shared/head');
                 view('Elimina', [
                     'select' => $data,
-                    'action' => "/elimina/{$selected['id']}",
-                    'data' => $selected,
+                    'action' => "/elimina/{$found->id}",
+                    'data' => $found,
                 ]);
                 view('shared/footer');
             }
@@ -191,51 +193,41 @@ class MenuController
      */
     public function guarda()
     {
-
-        $data = [
-            'name' => request()->post('nombre'),
-            'description' => request()->post('descripcion'),
-            'parent_id' => request()->post('padre')
-        ];
-
         $messages = [
             'error' => [],
         ];
 
-        if ($data['name'] == null || strlen($data['name']) < 1) {
-            array_push($messages['error'], 'El nombre no puede estar vacío.');
-        }
-
-        if ($data['description'] == null || strlen($data['description']) < 1) {
-            array_push($messages['error'], 'La descripción no puede estar vacía.');
-        }
-
-        $menuModel = new MenuModel();
-        $datos = $menuModel->getAll();
-
-        if (sizeof($messages['error']) > 0) {
-            view('shared/head');
-            view('Form', [
-                'select' => $datos,
-                'data' => $data,
-                'action' => '/alta',
-                'messages' => $messages,
-            ]);
-            view('shared/footer');
-            return;
-        }
+        $datos = Menu::all();
 
         try {
-            $menuModel->save($data);
+            $this->runValidations(request()->post());
+
+            $newMenu = new Menu([
+                'name' => request()->post('nombre'),
+                'description' => request()->post('descripcion'),
+                'parent_id' => request()->post('padre')
+            ]);
+
+            $newMenu->save();
             $messages['success'] = [
                 'Se ha registrado un nuevo elemento al menú'
             ];
+        } catch (ValidationsError $verror) {
+            if (sizeof($verror->getErrors())>0) {
+                foreach ($verror->getErrors() as $key => $value) {
+                    foreach ($value as $err) {
+                        array_push($messages['error'], $err);
+                    }
+                }
+            }
         } catch (\Throwable $th) {
             array_push($messages['error'], 'Ocurrio un error al registrar la información.');
+            $this->logError($th);
         }
         view('shared/head');
         view('Form', [
             'select' => $datos,
+            'data' => isset($data)? $data : [],
             'action' => '/alta',
             'messages' => $messages,
         ]);

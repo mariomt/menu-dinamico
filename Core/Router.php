@@ -2,6 +2,8 @@
 
 namespace Core;
 
+use Core\Errors\ControllerNotFound;
+
 /**
  * Clase que permite registrar y gestionar las rutas de la aplicación.
  * Esta clase permite tener una abstacción del manejo de rutas en la aplicación.
@@ -77,7 +79,11 @@ class Router
         foreach (self::$routes as $route) {
             if ($route['method'] === $requestMethod && preg_match($route['uri'], $uri, $matches)) {
                 $params = array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY);
-                require_once 'Controllers/' . $route['controller'] . '.php';
+                $constollerPath = CONTROLLERS_PATH . $route['controller'] . '.php';
+                if ( !file_exists($constollerPath) ) {
+                    throw new ControllerNotFound($route['controller']);
+                }
+                require_once $constollerPath;
                 $controllerpath = "Controllers\\" . $route['controller'];
                 $controller = new $controllerpath();
                 return $controller->{$route['function']}($params);

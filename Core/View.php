@@ -24,7 +24,7 @@ abstract class View
         } elseif (file_exists($viewPath . "View.php")) {
             $viewPath .= "View.php";
         } else {
-            throw new ViewNotFound("No se encontró la vista " . $name . ".php, ni la vista " . $name . "View.php");
+            throw new ViewNotFound($name);
         }
 
         extract($data);
