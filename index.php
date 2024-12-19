@@ -1,21 +1,14 @@
 <?php
 
 require_once './Config/Constant.php';
-require_once './helpers/GlobalHelpers.php';
-require_once './Config/Views.php';
+require_once './Core/functions.php';
+require './vendor/autoload.php';
 
-use Config\Router;
+use Core\Router;
 
-spl_autoload_register(function($class){
-    $file = str_replace('\\','/', $class) . '.php';
-    if(file_exists($file)) {
-        require_once $file;
-    }
-});
-
-Router::get('/', 'BaseController', 'index');
-Router::get('/menu', 'BaseController', 'inicio');
-Router::get('/menu/{id}', 'BaseController', 'inicio');
+Router::get('/', 'HomeController', 'index');
+Router::get('/menu', 'HomeController', 'inicio');
+Router::get('/menu/{id}', 'HomeController', 'inicio');
 Router::get('/Menus', 'MenuController', 'index');
 
 Router::get('/alta', 'MenuController', 'alta');

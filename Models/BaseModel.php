@@ -28,7 +28,7 @@ abstract class BaseModel
         return $stmt->fetchAll();
     }
 
-    public function getById($id)
+    public function find($id)
     {
         if (isset($this->allow_fields) && is_array($this->allow_fields)) {
             $fields = implode(",", $this->allow_fields);
@@ -42,7 +42,7 @@ abstract class BaseModel
         return $stmt->fetch();
     }
 
-    public function insert($data)
+    public function save($data)
     {
         $columns = implode(", ", array_keys($data));
         $placeholders = ":" . implode(", :", array_keys($data));

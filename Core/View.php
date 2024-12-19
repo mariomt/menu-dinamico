@@ -1,14 +1,13 @@
 <?php
 
-namespace Config;
+namespace Core;
 
-use Exception;
-use Throwable;
+use Core\Errors\ViewNotFound;
 
 /**
- * Clase para resolver las vistas e inyectarles variables.
+ * Clase Abstracta para resolver las vistas e inyectarles variables.
  */
-class View
+abstract class View
 {
     /**
      * Método que permite buscar una vista, para posteriormente idratarla con formación.
@@ -25,22 +24,11 @@ class View
         } elseif (file_exists($viewPath . "View.php")) {
             $viewPath .= "View.php";
         } else {
-            throw new ErrorViewNotFound("No se encontró la vista " . $name . ".php, ni la vista " . $name . "View.php");
+            throw new ViewNotFound("No se encontró la vista " . $name . ".php, ni la vista " . $name . "View.php");
         }
 
         extract($data);
 
         require $viewPath;
-    }
-}
-
-/**
- * Error personalizado para cuando no se encuentra una vista.
- */
-class ErrorViewNotFound extends Exception
-{
-    public function __construct($message, $code = 0, Throwable $previous = null)
-    {
-        parent::__construct($message, $code, $previous);
     }
 }

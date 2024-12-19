@@ -1,6 +1,6 @@
 <?php
 
-namespace Config;
+namespace Core;
 
 /**
  * Clase que permite registrar y gestionar las rutas de la aplicación.
@@ -77,7 +77,7 @@ class Router
         foreach (self::$routes as $route) {
             if ($route['method'] === $requestMethod && preg_match($route['uri'], $uri, $matches)) {
                 $params = array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY);
-                require_once CONTROLLERS_PATH . '/' . $route['controller'] . '.php';
+                require_once 'Controllers/' . $route['controller'] . '.php';
                 $controllerpath = "Controllers\\" . $route['controller'];
                 $controller = new $controllerpath();
                 return $controller->{$route['function']}($params);

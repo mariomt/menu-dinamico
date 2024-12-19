@@ -3,8 +3,8 @@
 namespace Controllers;
 
 use Models\MenuModel;
-use Config\View;
-use Config\Router;
+use Core\View;
+use Core\Router;
 
 /**
  * Clase contenedora de todas las acciones posibles para realizar con la gestión de menús
@@ -27,12 +27,12 @@ class MenuController
         $menuModel = new MenuModel();
         $datos = $menuModel->getAllWithParentName();
 
-        View::getView('shared/head');
-        View::getView('ListMenus', [
+        view('shared/head');
+        view('ListMenus', [
             'data' => $datos,
             'messages' => $messages
         ]);
-        View::getView('shared/footer');
+        view('shared/footer');
     }
 
     /**
@@ -44,12 +44,12 @@ class MenuController
     {
         $menuModel = new MenuModel();
         $datos = $menuModel->getAll();
-        View::getView('shared/head');
-        View::getView('Form', [
+        view('shared/head');
+        view('Form', [
             'select' => $datos,
             'action' => '/alta'
         ]);
-        View::getView('shared/footer');
+        view('shared/footer');
     }
 
     /**
@@ -86,14 +86,14 @@ class MenuController
             }
 
             if (sizeof($messages['error']) > 0) {
-                View::getView('shared/head');
-                View::getView('Form', [
+                view('shared/head');
+                view('Form', [
                     'select' => $datos,
                     'data' => $data,
                     'action' => '/alta',
                     'messages' => $messages,
                 ]);
-                View::getView('shared/footer');
+                view('shared/footer');
                 return;
             }
 
@@ -106,30 +106,30 @@ class MenuController
                 array_push($messages['error'], 'Ocurrio un error al registrar la información.');
             }
 
-            View::getView('shared/head');
-            View::getView('Form', [
+            view('shared/head');
+            view('Form', [
                 'select' => $datos,
                 'data' => $data,
                 'action' => '/alta',
                 'messages' => $messages,
             ]);
-            View::getView('shared/footer');
+            view('shared/footer');
         } else {
             $found_key = array_search($params['id'], array_column($datos, 'id'));
 
             if ($found_key === false) {
-                View::getView('NotFound', [
+                view('NotFound', [
                     'message' => 'No se ha encontrádo la opción del menú que desea eliminar.',
                 ]);
             } else {
                 $selected = $datos[$found_key];
-                View::getView('shared/head');
-                View::getView('Form', [
+                view('shared/head');
+                view('Form', [
                     'select' => $datos,
                     'action' => "/editar/{$selected['id']}",
                     'data' => $selected,
                 ]);
-                View::getView('shared/footer');
+                view('shared/footer');
             }
         }
     }
@@ -146,7 +146,7 @@ class MenuController
         $found_key = array_search($params['id'], array_column($data, 'id'));
 
         if ($found_key === false) {
-            View::getView('NotFound', [
+            view('NotFound', [
                 'message' => 'No se ha encontrádo la opción del menú que desea eliminar.',
             ]);
         } else {
@@ -158,8 +158,8 @@ class MenuController
                     Router::redirect('/Menus');
                 } catch (\Throwable $th) {
                     if (str_contains($th->getMessage(), "a foreign key constraint fails")) {
-                        View::getView('shared/head');
-                        View::getView('Elimina', [
+                        view('shared/head');
+                        view('Elimina', [
                             'select' => $data,
                             'action' => "/elimina/{$selected['id']}",
                             'data' => $selected,
@@ -169,17 +169,17 @@ class MenuController
                                 ]
                             ]
                         ]);
-                        View::getView('shared/footer');
+                        view('shared/footer');
                     }
                 }
             } else {
-                View::getView('shared/head');
-                View::getView('Elimina', [
+                view('shared/head');
+                view('Elimina', [
                     'select' => $data,
                     'action' => "/elimina/{$selected['id']}",
                     'data' => $selected,
                 ]);
-                View::getView('shared/footer');
+                view('shared/footer');
             }
         }
     }
@@ -214,31 +214,31 @@ class MenuController
         $datos = $menuModel->getAll();
 
         if (sizeof($messages['error']) > 0) {
-            View::getView('shared/head');
-            View::getView('Form', [
+            view('shared/head');
+            view('Form', [
                 'select' => $datos,
                 'data' => $data,
                 'action' => '/alta',
                 'messages' => $messages,
             ]);
-            View::getView('shared/footer');
+            view('shared/footer');
             return;
         }
 
         try {
-            $menuModel->insert($data);
+            $menuModel->save($data);
             $messages['success'] = [
                 'Se ha registrado un nuevo elemento al menú'
             ];
         } catch (\Throwable $th) {
             array_push($messages['error'], 'Ocurrio un error al registrar la información.');
         }
-        View::getView('shared/head');
-        View::getView('Form', [
+        view('shared/head');
+        view('Form', [
             'select' => $datos,
             'action' => '/alta',
             'messages' => $messages,
         ]);
-        View::getView('shared/footer');
+        view('shared/footer');
     }
 }

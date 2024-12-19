@@ -6,7 +6,15 @@
             "email": "mariotinoco85@gmail.com"
         }
     ],
-    
+    "autoload": {
+        "psr-4": {
+            "Controllers\\": "Controllers/",
+            "Models\\": "Models/",
+            "Config\\": "Config/",
+            "Interfaces\\": "Interfaces/",
+            "Core\\": "Core/"
+        }
+    },
     "require-dev": {
         "squizlabs/php_codesniffer": "3.*"
     },

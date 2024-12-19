@@ -2,7 +2,7 @@
 
 namespace Controllers;
 
-use Config\View;
+use Core\BaseController;
 use Models\MenuModel;
 
 /**
@@ -10,7 +10,7 @@ use Models\MenuModel;
  *
  * Controlador base que se utiliza para los endpoints principales
  */
-class BaseController
+class HomeController extends BaseController
 {
     /**
      * Método que renderiza la vista HomeView.
@@ -19,7 +19,7 @@ class BaseController
      */
     public function index()
     {
-        View::getView('HomeView');
+        view('HomeView');
     }
 
 
@@ -45,14 +45,14 @@ class BaseController
             $description = 'No se ha seleccionado opción del menú 🙄';
         }
 
-        require_once HELPERS_PATH . 'MenuHelpers.php';
+        helper('Menu');
         $menu = buildMenuHierarchy($data);
 
-        View::getView('shared/head');
-        View::getView('Menu', [
+        view('shared/head');
+        view('Menu', [
             'menu' => renderMenu($menu),
             'description' => $description,
         ]);
-        View::getView('shared/footer');
+        view('shared/footer');
     }
 }

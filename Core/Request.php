@@ -1,6 +1,8 @@
 <?php
 
-namespace Config;
+namespace Core;
+
+use Throwable;
 
 /**
  * Clase que nos permite mapear información del request y tenerla en un objeto.
@@ -37,7 +39,7 @@ class Request
     /**
      * Método auxiliar para poder generar la instancia de la clase o obtener la instancia ya crada.
      *
-     * @return object
+     * @return Request
      */
     public static function getInstance()
     {
@@ -51,11 +53,15 @@ class Request
     /**
      * Método que nos permite extraer una propiedad del body de la solicitud.
      *
-     * @param  string $key
-     * @return string
+     * @param  string|null $key
+     * @return string|array
      */
-    public function post($key)
+    public function post($key = null)
     {
+        if(is_null($key)) {
+            return $this->post;
+        }
+
         $value = $this->post[$key] ?? null;
 
         if (is_string($value)) {
@@ -68,11 +74,15 @@ class Request
     /**
      * Método que nos permite extraer una propiedad de los query params pasados en la solicitud.
      *
-     * @param  string $key
-     * @return string
+     * @param  string|null $key
+     * @return string|array
      */
-    public function get($key)
+    public function get($key = null)
     {
+        if(is_null($key)) {
+            return $this->get;
+        }
+
         $value = $this->get[$key] ?? null;
 
         if (is_string($value)) {
